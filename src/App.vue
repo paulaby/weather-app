@@ -7,15 +7,15 @@
         </span>
 
         <form action="" class="main__form">
-          <input v-model="city" type="text" name="city" class="main__input" placeholder="Write city name...">
+          <input v-model="city" type="text" autocomplete="off" @keypress="loadData" name="city" class="main__input" placeholder="Write city name...">
         </form>
-        <div class="main__result">
-          <div class="main__city"></div>
+        <div v-if="weather.main" class="main__result">
+            <div class="main__city"> {{ weather.name }} </div>
+            <div class="main__temp"> {{ weather.main.temp }} &#x2103;</div>
           <div class="main__weather">
-            <div class="main__temp"></div>
-            <div class="main__weather-desc"></div>
-            <div class="main__pressure"></div>
-            <div class="main__wind"></div>
+            <div class="main__weather-desc"> Weather: {{ weather.weather[0].description }}</div>
+            <div class="main__pressure">Pressure:  {{ weather.main.pressure }} hPa</div>
+            <div class="main__wind">Wind: {{ weather.wind.speed }} meter/sec</div>
           </div>
         </div>
 
@@ -34,7 +34,27 @@ export default {
   data () {
     return {
       city: '',
+      weather: {},
+      api_key: 'f0ea74b2e7812fd44b33fa44783240a5',
     };
+  },
+
+  methods: {
+    async loadData (e) {
+      if (e.key === 'Enter') {
+        e.preventDefault();
+        await fetch(`https://api.openweathermap.org/data/2.5/weather?q=${this.city}&units=metric&APPID=${this.api_key}`)
+        .then(res => {
+          return res.json();
+          })
+        .then(this.setWeather);
+      }
+    },
+
+    setWeather (data) {
+      this.weather = data;
+      console.log(this.weather);
+    },
   },
 }
 </script>

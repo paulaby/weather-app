@@ -1,4 +1,9 @@
 # weather-app
+Application checking weather for a given city.
+It shows temperature, pressure, simple descrtiption and wind speed.
+
+### Planned to add:
+Validation for city input and error handling.
 
 ## Project setup
 ```

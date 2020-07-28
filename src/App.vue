@@ -35,7 +35,6 @@ export default {
     return {
       city: '',
       weather: {},
-      api_key: 'f0ea74b2e7812fd44b33fa44783240a5',
     };
   },
 
@@ -43,7 +42,7 @@ export default {
     async loadData (e) {
       if (e.key === 'Enter') {
         e.preventDefault();
-        await fetch(`https://api.openweathermap.org/data/2.5/weather?q=${this.city}&units=metric&APPID=${this.api_key}`)
+        await fetch(`https://api.openweathermap.org/data/2.5/weather?q=${this.city}&units=metric&APPID=${process.env.VUE_APP_API_KEY}`)
         .then(res => {
           return res.json();
           })
@@ -53,7 +52,6 @@ export default {
 
     setWeather (data) {
       this.weather = data;
-      console.log(this.weather);
     },
   },
 }
